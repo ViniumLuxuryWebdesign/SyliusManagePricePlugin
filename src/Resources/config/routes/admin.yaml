@@ -1,0 +1,15 @@
+sylius_admin_manage_price_index:
+    path: /manage-price
+    methods: [GET, POST]
+    defaults:
+        _controller: Vinium\SyliusManagePricePlugin\Controller\ManagePriceController::index
+        _sylius:
+            permission: true
+sylius_admin_manage_price_update:
+    path: /manage-price/update
+    methods: [GET]
+    condition: "request.isXmlHttpRequest()"
+    defaults:
+        _controller: Vinium\SyliusManagePricePlugin\Controller\ManagePriceController::update
+        _sylius:
+            permission: true

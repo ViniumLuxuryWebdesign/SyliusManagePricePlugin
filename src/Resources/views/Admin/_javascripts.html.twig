@@ -1,0 +1,33 @@
+<script>
+    $(document).ready(() => {
+        const updatePrice = function updatePrice(element) {
+            const loadableParent = element.closest('.field');
+            let price = element.val();
+            let url = element.closest('table').data('url');
+            let data = {
+                price: price,
+                id: parseInt(element.closest('tr').data('id')),
+                field: element.prop('name'),
+            };
+            loadableParent.addClass('loading');
+            //todo check value format
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: data,
+                dataType: 'json',
+                accept: 'application/json',
+                success(response) {
+                    loadableParent.removeClass('loading');
+                },
+                error(response) {
+                    loadableParent.removeClass('loading');
+                    element.parent().addClass('error');
+                },
+            });
+        };
+        $("#vinium-sylius-manage-price input[name='price'], #vinium-sylius-manage-price input[name='originalPrice']").on('change', function (e, el) {
+            updatePrice($(this));
+        });
+    });
+</script>

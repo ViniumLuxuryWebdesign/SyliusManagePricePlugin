@@ -1,0 +1,5 @@
+sylius_core:
+    resources:
+        channel_pricing:
+            classes:
+                repository: Vinium\SyliusManagePricePlugin\Repository\ChannelPricingRepository

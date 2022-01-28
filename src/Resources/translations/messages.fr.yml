@@ -1,0 +1,3 @@
+vinium_sylius_manage_price_plugin:
+    ui:
+        label: Gestion des prix

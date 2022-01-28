@@ -1,0 +1,72 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+{% import '@SyliusUi/Macro/pagination.html.twig' as pagination %}
+
+{% form_theme form '@SyliusAdmin/Form/theme.html.twig' %}
+
+{% block title %}{{ 'vinium_sylius_manage_price_plugin.ui.label'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="twelve wide column">
+        <h1 class="ui header">
+            <i class="circular cog icon"></i>
+            <div class="content">
+                {{ 'vinium_sylius_manage_price_plugin.ui.label'|trans }}
+            </div>
+        </h1>
+    </div>
+    <div class="ui dividing header"></div>
+    <div class="ui segment">
+        <h3>{{ 'sylius.ui.search'|trans }}</h3>
+        {{ form_start(form, {'attr':{'role':'form', 'class': 'ui loadable form dirtylisten'}}) }}
+        {{ form_errors(form) }}
+        <div class="two fields">
+            {{ form_row(form.channelCode) }}
+            {{ form_row(form.productsCode) }}
+        </div>
+        <button class="ui blue labeled icon button" type="submit">
+            <i class="icon search"></i> {{ 'sylius.ui.filter'|trans }}
+        </button>
+        <a class="ui labeled icon button" href="{{ path('sylius_admin_manage_price_index') }}">
+            <i class="icon remove"></i> {{ 'sylius.ui.clear_filters'|trans }}
+        </a>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    </div>
+    {% if channelPrices|length %}
+        <table class="ui celled table" id="vinium-sylius-manage-price" data-url="{{ path('sylius_admin_manage_price_update') }}">
+            <thead>
+                <tr>
+                    <th>{{ 'sylius.ui.product_variants'|trans }}</th>
+                    <th>{{ 'sylius.ui.channel'|trans }}</th>
+                    <th>{{ 'sylius.ui.price'|trans }}</th>
+                    <th>{{ 'sylius.ui.original_price'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for channelPrice in channelPrices %}
+                    <tr data-id="{{ channelPrice.id }}" data-channel-code="{{ channelPrice.channelCode }}">
+                        <td data-label="Product"><div class="ui blue horizontal label">{{ channelPrice.productVariant.product.name }}</div>{% if channelPrice.productVariant.name|default %}<div class="ui green horizontal label"> {{ channelPrice.productVariant.name }}</div>{% endif %}</td>
+                        <td data-label="Channel">{{ channelPrice.channelCode }}</td>
+                        <td data-label="Price">
+                            <div class="ui labeled input field ui form">
+                                <div class="ui label">{{ channelCurrencies[channelPrice.channelCode] ?? 'EURO' }}</div>
+                                <input type="text" name="price" value="{{ (channelPrice.price/100)|number_format(2, ',', ',') }}">
+                            </div>
+                        </td>
+                        <td data-label="OriginalPrice">
+                            <div class="ui labeled input field ui form">
+                                <div class="ui label">{{ channelCurrencies[channelPrice.channelCode] ?? 'EURO' }}</div>
+                                <input type="text" name="originalPrice" value="{{ channelPrice.originalPrice ? (channelPrice.originalPrice/100)|number_format(2, ',', ',') : '' }}">
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+     {% else %}
+         {{ messages.info('sylius.ui.no_results_to_display') }}
+    {% endif %}
+    {{ pagination.simple(channelPrices) }}
+    {{ sylius_template_event('vinium_sylius_manage_price_plugin.admin.index.javascripts') }}
+{% endblock %}
+

@@ -1,0 +1,9 @@
+sylius_ui:
+    events:
+        sylius.admin.layout.javascripts:
+            blocks:
+                vinium_manage_price:
+                    template: "@ViniumSyliusManagePricePlugin/Admin/_javascripts.html.twig"
+                    priority: -100
+                    context:
+                        event: sylius.admin.layout.javascripts

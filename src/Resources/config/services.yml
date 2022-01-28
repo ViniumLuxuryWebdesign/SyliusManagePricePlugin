@@ -1,0 +1,23 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        
+    Vinium\SyliusManagePricePlugin\:
+        resource: '../../*'
+        exclude: '../../{Entity,Migrations,ViniumSyliusManagePricePlugin.php}'
+
+    Vinium\SyliusManagePricePlugin\Menu\AdminMenuListener:
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
+    
+    Vinium\SyliusManagePricePlugin\Controller\ManagePriceController:
+        arguments: [ '@sylius.repository.channel_pricing', '@sylius.repository.channel', '@doctrine.orm.default_entity_manager']
+        tags: [ 'controller.service_arguments' ]
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+    
+    Vinium\SyliusManagePricePlugin\Form\ManagePriceSearchType:
+        arguments: [ '@sylius.form.type.data_transformer.products_to_codes']
+        tags: [ 'form.type' ]

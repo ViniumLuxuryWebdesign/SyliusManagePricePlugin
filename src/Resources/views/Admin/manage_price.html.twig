@@ -45,18 +45,18 @@
             <tbody>
                 {% for channelPrice in channelPrices %}
                     <tr data-id="{{ channelPrice.id }}" data-channel-code="{{ channelPrice.channelCode }}">
-                        <td data-label="Product"><div class="ui blue horizontal label">{{ channelPrice.productVariant.product.name }}</div>{% if channelPrice.productVariant.name|default %}<div class="ui green horizontal label"> {{ channelPrice.productVariant.name }}</div>{% endif %}</td>
+                        <td data-label="Product"><a href="{{ path('sylius_admin_product_update', {'id': channelPrice.productVariant.product.id}) }}" class="ui blue horizontal label">{{ channelPrice.productVariant.product.name }}</a>{% if channelPrice.productVariant.name|default %}<a href="{{ path('sylius_admin_product_variant_update', {'productId': channelPrice.productVariant.product.id, 'id': channelPrice.productVariant.id}) }}" class="ui green horizontal label"> {{ channelPrice.productVariant.name }}</a>{% endif %}</td>
                         <td data-label="Channel">{{ channelPrice.channelCode }}</td>
                         <td data-label="Price">
                             <div class="ui labeled input field ui form">
                                 <div class="ui label">{{ channelCurrencies[channelPrice.channelCode] ?? 'EURO' }}</div>
-                                <input type="text" name="price" value="{{ (channelPrice.price/100)|number_format(2, ',', ',') }}">
+                                <input type="text" name="price" style="width: auto" value="{{ (channelPrice.price/100)|number_format(2, ',', ',') }}">
                             </div>
                         </td>
                         <td data-label="OriginalPrice">
                             <div class="ui labeled input field ui form">
                                 <div class="ui label">{{ channelCurrencies[channelPrice.channelCode] ?? 'EURO' }}</div>
-                                <input type="text" name="originalPrice" value="{{ channelPrice.originalPrice ? (channelPrice.originalPrice/100)|number_format(2, ',', ',') : '' }}">
+                                <input type="text" name="originalPrice" style="width: auto" value="{{ channelPrice.originalPrice ? (channelPrice.originalPrice/100)|number_format(2, ',', ',') : '' }}">
                             </div>
                         </td>
                     </tr>

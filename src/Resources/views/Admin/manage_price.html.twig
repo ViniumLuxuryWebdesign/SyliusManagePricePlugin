@@ -44,8 +44,30 @@
             </thead>
             <tbody>
                 {% for channelPrice in channelPrices %}
+                    {% set product = channelPrice.productVariant.product %}
+                    {% set productVariant = channelPrice.productVariant %}
                     <tr data-id="{{ channelPrice.id }}" data-channel-code="{{ channelPrice.channelCode }}">
-                        <td data-label="Product"><a href="{{ path('sylius_admin_product_update', {'id': channelPrice.productVariant.product.id}) }}" class="ui blue horizontal label">{{ channelPrice.productVariant.product.name }}</a>{% if channelPrice.productVariant.name|default %}<a href="{{ path('sylius_admin_product_variant_update', {'productId': channelPrice.productVariant.product.id, 'id': channelPrice.productVariant.id}) }}" class="ui green horizontal label"> {{ channelPrice.productVariant.name }}</a>{% endif %}</td>
+                        <td data-label="Product">
+                            {#<a href="{{ path('sylius_admin_product_update', {'id': product.id}) }}" class="ui blue horizontal label">{{ product.name }}</a>#}
+                            {% if productVariant|default %}
+                                <a href="{{ path('sylius_admin_product_variant_update', {'productId': product.id, 'id': productVariant.id}) }}" class="ui green horizontal label">
+                                    {% if productVariant.name|default %}
+                                        {{ product.name }} - {{ productVariant.name }}
+                                    {% else %}
+                                        {{ product.name }}
+                                    {% endif %}
+                                </a>
+                            {% endif %}
+                            {% if product.hasOptions() %}
+                                <div class="ui divided list">
+                                    {% for optionValue in productVariant.optionValues %}
+                                        <span class="ui horizontal label">
+                                            {{ optionValue.option.name }}: {{ optionValue.value }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </td>
                         <td data-label="Channel">{{ channelPrice.channelCode }}</td>
                         <td data-label="Price">
                             <div class="ui labeled input field ui form">

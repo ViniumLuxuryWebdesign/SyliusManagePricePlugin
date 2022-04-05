@@ -6,7 +6,9 @@
 
 <h1 align="center">Sylius Manage Price Plugin</h1>
 
-<p align="center">Mange price for variants and channels </p>
+<p align="center">Manage price for variants and channels </p>
+
+![Screen](doc/images/screen.png)
 
 ## Quickstart Installation
 

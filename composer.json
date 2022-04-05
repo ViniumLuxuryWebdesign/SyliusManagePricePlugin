@@ -1,10 +1,12 @@
 {
     "name": "vinium/sylius-manage-price-plugin",
     "type": "sylius-plugin",
-    "description": "Manage price for all variants annd channels",
+    "description": "Manage price for all variants and channels",
     "keywords": [
         "sylius",
-        "sylius-plugin"
+        "sylius-plugin",
+        "vinium",
+        "price"
     ],
     "authors": [
         {
@@ -16,7 +18,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
-        "sylius/sylius": "~1.8.0 || ~1.9.0 || ~1.10"
+        "sylius/sylius": "~1.8.0 || ~1.9.0 || ~1.10 || ~1.11"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
